@@ -79,7 +79,7 @@ compilación correspondientes. No se utiliza XAMPP.
 
 ### 1. Clonar el repositorio
 
-Sustituye URL_DEL_REPOSITORIO por la dirección real del repositorio:
+Clona el repositorio desde GitHub:
 
 ~~~powershell
 git clone "https://github.com/javier1526/Sistema-de-Gestion-de-Inventario-y-Control-de-Vencimientos.git" sistema_inventario_bodega
