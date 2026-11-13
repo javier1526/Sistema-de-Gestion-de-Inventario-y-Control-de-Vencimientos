@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block contenido %}
+<section class="card acceso mx-auto shadow-sm" aria-labelledby="titulo-acceso">
+  <div class="row g-0">
+    <div class="col-md-5 acceso-introduccion p-4 p-lg-5">
+      <p class="sobretitulo mb-2">Acceso de trabajadores</p>
+      <h1 id="titulo-acceso" class="mb-3">Iniciar sesión</h1>
+      <p class="mb-0">Ingresa con tu cuenta individual para acceder a la bodega.</p>
+    </div>
+    <div class="col-md-7 card-body p-4 p-lg-5">
+      <p class="small text-body-secondary mb-3">Todos los campos son obligatorios.</p>
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">{{ form.non_field_errors }}</div>
+      {% endif %}
+      <form method="post" action="{% url 'usuarios:iniciar_sesion' %}">
+        {% csrf_token %}
+        {% for campo in form %}
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="{{ campo.id_for_label }}">
+              {{ campo.label }} <span class="small text-body-secondary fw-normal">(obligatorio)</span>
+            </label>
+            {{ campo }}
+            <div id="{{ campo.id_for_label }}_errores" class="error-campo">{{ campo.errors }}</div>
+          </div>
+        {% endfor %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+        <button class="btn btn-primary w-100" type="submit">Ingresar</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

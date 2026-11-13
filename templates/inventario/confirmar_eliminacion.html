@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block titulo %}Confirmar eliminación{% endblock %}
+{% block contenido %}
+<section class="card acceso mx-auto shadow-sm" aria-labelledby="titulo-eliminacion">
+  <div class="card-body p-3 p-sm-4 p-lg-5">
+    <p class="sobretitulo mb-2">Gestión de productos</p>
+    <h1 id="titulo-eliminacion" class="mb-3">Confirmar eliminación</h1>
+    <p class="text-break">¿Quieres eliminar <strong>{{ producto.nombre }}</strong> del catálogo?</p>
+    <p class="text-body-secondary mb-4">Solo se pueden eliminar productos sin historial de lotes ni movimientos.</p>
+    <form method="post" class="d-grid d-sm-flex gap-2">
+      {% csrf_token %}
+      <a class="btn btn-outline-primary" href="{% url 'inventario:productos' %}">Cancelar</a>
+      <button class="btn btn-danger" type="submit" name="confirmar" value="si">Eliminar producto</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

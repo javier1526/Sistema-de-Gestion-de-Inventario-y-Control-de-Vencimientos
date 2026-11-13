@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block titulo %}Inicio{% endblock %}
+{% block contenido %}
+<section class="mb-4" aria-labelledby="titulo-inicio">
+  <p class="sobretitulo mb-2">Sesión activa</p>
+  <h1 id="titulo-inicio">Bienvenido a Bodega</h1>
+  <p class="text-body-secondary mb-0">Tu acceso está identificado con una cuenta individual.</p>
+</section>
+<div class="row g-3">
+  <div class="col-md-6">
+    <section class="card h-100 shadow-sm" aria-labelledby="titulo-cuenta">
+      <div class="card-body p-4">
+        <h2 id="titulo-cuenta" class="h5 mb-3">Tu cuenta</h2>
+        <dl class="mb-0"><dt>Usuario</dt><dd class="nombre-cuenta mb-0">{{ user.username }}</dd></dl>
+      </div>
+    </section>
+  </div>
+  <div class="col-md-6">
+    <section class="card h-100 shadow-sm" aria-labelledby="titulo-perfil">
+      <div class="card-body p-4">
+        <h2 id="titulo-perfil" class="h5 mb-3">Tu perfil</h2>
+        <p class="badge rounded-pill etiqueta-perfil">{{ perfil }}</p>
+        {% if perfil == 'Administrador' %}
+          <p class="mb-0">Acceso administrativo de bodega.</p>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <a class="btn btn-primary" href="{% url 'inventario:productos' %}">Gestionar productos</a>
+            <a class="btn btn-outline-primary" href="{% url 'inventario:ingresar_lote' %}">Registrar ingreso por lote</a>
+          </div>
+        {% else %}
+          <p class="mb-0">Acceso operativo de Reponedor.</p>
+        {% endif %}
+        <a class="btn btn-outline-primary mt-3" href="{% url 'consulta_inventario:buscar' %}">Consultar inventario</a>
+      </div>
+    </section>
+  </div>
+</div>
+{% if perfil == 'Administrador' %}
+  <section class="mt-4" aria-labelledby="titulo-consultas">
+    <h2 id="titulo-consultas" class="h4 mb-3">Consultas administrativas</h2>
+    <div class="d-grid d-md-flex flex-wrap gap-2">
+      <a class="btn btn-outline-primary" href="{% url 'consultas:alertas' %}">Alertas de stock mínimo</a>
+      <a class="btn btn-outline-primary" href="{% url 'consultas:historial' %}">Historial de movimientos</a>
+      <a class="btn btn-outline-primary" href="{% url 'consultas:vencimientos' %}">Análisis económico de vencimientos</a>
+    </div>
+  </section>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,30 @@
+<ul class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 list-unstyled" role="list">
+  {% for lote in lotes %}
+    <li class="col">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body p-3 p-sm-4">
+          <p class="fw-semibold text-break mb-2">Lote {{ lote.codigo_lote }}</p>
+          <div class="d-flex flex-wrap gap-1 mb-3">
+            {% if solo_agotados %}<span class="badge text-bg-secondary">Agotado</span>{% endif %}
+            {% if lote.vencido_en_consulta %}
+              <span class="badge text-bg-danger">Vencido</span>
+            {% elif not solo_agotados %}
+              <span class="badge text-bg-success">Vigente</span>
+            {% endif %}
+          </div>
+          <dl class="mb-0">
+            <dt>Fecha de vencimiento</dt>
+            <dd><time datetime="{{ lote.fecha_vencimiento|date:'Y-m-d' }}">{{ lote.fecha_vencimiento|date:'d/m/Y' }}</time></dd>
+            <dt>Unidades restantes</dt>
+            <dd class="mb-0">{{ lote.cantidad_restante }}</dd>
+          </dl>
+          {% if puede_retirar %}
+            <a class="btn btn-outline-primary mt-3"
+               href="{% url 'consulta_inventario:retirar' producto_id lote.pk %}{% if termino %}?q={{ termino|urlencode }}{% endif %}"
+               aria-label="Retirar del lote {{ lote.codigo_lote }}">Retirar unidades</a>
+          {% endif %}
+        </div>
+      </div>
+    </li>
+  {% endfor %}
+</ul>

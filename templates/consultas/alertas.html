@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block titulo %}Alertas de stock mínimo{% endblock %}
+{% block contenido %}
+<h1 class="mb-2">Alertas de stock mínimo</h1>
+<p class="text-body-secondary mb-4">Productos con stock disponible igual o inferior a su mínimo. La lista se recalcula al volver a consultar.</p>
+{% if productos %}
+  <ul class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 list-unstyled" role="list">
+    {% for producto in productos %}
+      <li class="col">
+        <article class="card h-100 shadow-sm">
+          <div class="card-body p-3 p-sm-4">
+            <h2 class="h5 text-break">{{ producto.nombre }}</h2>
+            <dl class="mb-0">
+              <dt>Stock disponible</dt><dd>{{ producto.stock_disponible }}</dd>
+              <dt>Stock mínimo</dt><dd class="mb-0">{{ producto.stock_minimo }}</dd>
+            </dl>
+          </div>
+        </article>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="alert alert-light border" role="status">No hay alertas de stock mínimo.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load moneda %}
+{% block titulo %}Análisis económico de vencimientos{% endblock %}
+{% block contenido %}
+<h1 class="mb-2">Análisis económico de vencimientos</h1>
+<p class="text-body-secondary mb-4">Valor potencial en riesgo de las unidades restantes. Se calcula con el costo de adquisición de cada lote vigente dentro de los próximos 90 días.</p>
+<div class="card shadow-sm mb-4">
+  <div class="card-body p-3 p-sm-4">
+    <h2 class="h5">Total consolidado</h2>
+    <p class="fs-4 fw-semibold text-break mb-0" id="total-riesgo">{{ total|clp }}</p>
+  </div>
+</div>
+<div class="row row-cols-1 row-cols-md-3 g-3">
+  {% for intervalo in intervalos %}
+    <section class="col" aria-labelledby="intervalo-{{ intervalo.desde }}">
+      <div class="card h-100 shadow-sm">
+        <div class="card-body p-3 p-sm-4">
+          <h2 class="h5" id="intervalo-{{ intervalo.desde }}">{{ intervalo.desde }}–{{ intervalo.hasta }} días</h2>
+          <p class="fw-semibold text-break">Subtotal {{ intervalo.subtotal|clp }}</p>
+          {% if intervalo.detalles %}
+            <ul class="list-group list-group-flush" role="list">
+              {% for detalle in intervalo.detalles %}
+                <li class="list-group-item px-0 text-break">
+                  <h3 class="h6 mb-2">{{ detalle.lote.producto.nombre }}</h3>
+                  <dl class="mb-0">
+                    <dt>Código de lote</dt><dd>{{ detalle.lote.codigo_lote }}</dd>
+                    <dt>Días restantes</dt><dd>{{ detalle.dias }}</dd>
+                    <dt>Valor potencial en riesgo</dt><dd class="mb-0">{{ detalle.valor|clp }}</dd>
+                  </dl>
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-body-secondary mb-0">No hay lotes en este intervalo.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block titulo %}Lotes agotados{% endblock %}
+{% block contenido %}
+<section aria-labelledby="titulo-agotados">
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start gap-3 mb-4">
+    <div class="text-break">
+      <p class="sobretitulo mb-2">Inventario · Producto n.º {{ producto.pk }}</p>
+      <h1 id="titulo-agotados" class="mb-2">Lotes agotados</h1>
+      <p class="text-body-secondary mb-0">{{ producto.nombre }}</p>
+    </div>
+    <a class="btn btn-outline-primary flex-shrink-0"
+       href="{% url 'consulta_inventario:producto' producto.pk %}{% if termino %}?q={{ termino|urlencode }}{% endif %}">Volver al producto</a>
+  </div>
+  {% if lotes %}
+    {% include 'inventario/lista_lotes.html' with lotes=lotes solo_agotados=True only %}
+  {% else %}
+    <p class="alert alert-light border" role="status">No hay lotes agotados para este producto.</p>
+  {% endif %}
+</section>
+{% endblock %}

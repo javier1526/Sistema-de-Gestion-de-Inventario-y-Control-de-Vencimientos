@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block titulo %}Acceso denegado{% endblock %}
+{% block contenido %}
+<section class="card shadow-sm" aria-labelledby="titulo-denegado">
+  <div class="card-body p-4 p-md-5">
+    <h1 id="titulo-denegado">Acceso denegado</h1>
+    <p>Tu cuenta no está autorizada para acceder a esta función.</p>
+    <p class="text-body-secondary">Si tu perfil no está configurado correctamente, consulta al responsable de las cuentas.</p>
+    <div class="d-flex flex-wrap gap-2">
+      <a class="btn btn-outline-primary" href="{% url 'usuarios:iniciar_sesion' %}">Ir al acceso</a>
+      {% if user.is_authenticated %}
+        <form class="m-0" method="post" action="{% url 'usuarios:cerrar_sesion' %}">
+          {% csrf_token %}<button class="btn btn-primary" type="submit">Cerrar sesión</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}
+
